@@ -1,0 +1,29 @@
+{
+  "name": "pollenium-forgetmenot",
+  "version": "0.0.0",
+  "description": "",
+  "main": "node/index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pollenium/forgetmenot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pollenium/forgetmenot/issues"
+  },
+  "homepage": "https://github.com/pollenium/forgetmenot#readme",
+  "devDependencies": {
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/node": "^13.7.0",
+    "pollenium-uvaursi": "^8.5.0",
+    "prompt-promise": "^1.0.3"
+  }
+}
