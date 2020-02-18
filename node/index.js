@@ -47,7 +47,7 @@ var Forgetmenot = /** @class */ (function () {
         this.dirPath = dirPath;
     }
     Forgetmenot.prototype.getPath = function (key) {
-        return this.dirPath + "/" + key + ".hex.txt";
+        return this.dirPath + "/" + key + ".hex.js";
     };
     Forgetmenot.prototype.getIsSet = function (key) {
         return fs_1["default"].existsSync(this.getPath(key));
@@ -56,7 +56,7 @@ var Forgetmenot = /** @class */ (function () {
         if (!this.getIsSet(key)) {
             return null;
         }
-        var hex = fs_1["default"].readFileSync(this.getPath(key), 'utf8');
+        var hex = require(this.getPath(key));
         return pollenium_uvaursi_1.Uu.fromHexish(hex);
     };
     Forgetmenot.prototype.set = function (key, value) {
@@ -75,7 +75,7 @@ var Forgetmenot = /** @class */ (function () {
                         }
                         _a.label = 2;
                     case 2:
-                        fs_1["default"].writeFileSync(this.getPath(key), pollenium_uvaursi_1.Uu.wrap(value).toHex());
+                        fs_1["default"].writeFileSync(this.getPath(key), "module.exports = '" + pollenium_uvaursi_1.Uu.wrap(value).toHex() + "'");
                         return [2 /*return*/];
                 }
             });
