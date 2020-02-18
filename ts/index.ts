@@ -7,7 +7,7 @@ export class Forgetmenot {
   constructor(readonly dirPath: string) {}
 
   getPath(key: string) {
-    return `${this.dirPath}/${key}.hex.txt`
+    return `${this.dirPath}/${key}.hex.js`
   }
 
   getIsSet(key: string): boolean {
@@ -18,7 +18,7 @@ export class Forgetmenot {
     if (!this.getIsSet(key)) {
       return null
     }
-    const hex = fs.readFileSync(this.getPath(key), 'utf8')
+    const hex = require(this.getPath(key))
     return Uu.fromHexish(hex)
   }
 
@@ -30,7 +30,7 @@ export class Forgetmenot {
         return
       }
     }
-    fs.writeFileSync(this.getPath(key), Uu.wrap(value).toHex())
+    fs.writeFileSync(this.getPath(key), `module.exports = '${Uu.wrap(value).toHex()}'`)
   }
-  
+
 }
