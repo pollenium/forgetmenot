@@ -2,35 +2,34 @@ import { Uu, Uish } from 'pollenium-uvaursi'
 import fs from 'fs'
 import prompt from 'prompt-promise'
 
+
 export class Forgetmenot {
 
   constructor(readonly dirPath: string) {}
 
-  getPath(key: string) {
-    return `${this.dirPath}/${key}.hex.js`
+  private getPath(key: string) {
+    return `${this.dirPath}/${key}.uu.ts`
   }
 
-  getIsSet(key: string): boolean {
+  private getIsSet(key: string): boolean {
     return fs.existsSync(this.getPath(key))
   }
 
-  get(key: string): Uu | null {
-    if (!this.getIsSet(key)) {
-      return null
-    }
-    const hex = require(this.getPath(key))
-    return Uu.fromHexish(hex)
-  }
-
-  async set(key: string, value: Uish): Promise<void> {
-    const currentValue = this.get(key)
-    if (currentValue !== null) {
-      const answer = await prompt(`${key} is set to ${currentValue.toHex()}. Override? (y/n): `)
+  async set(struct: { key: string, value: Uish }): Promise<void> {
+    const key = struct.key
+    const value = Uu.wrap(struct.value)
+    const isSet = this.getIsSet(key)
+    if (isSet) {
+      const answer = await prompt(`${key} is set. Overwrite? (y/n): `)
       if (answer !== 'y') {
         return
       }
     }
-    fs.writeFileSync(this.getPath(key), `module.exports = '${Uu.wrap(value).toHex()}'`)
+    fs.writeFileSync(this.getPath(key),
+      `import { Uu } from 'pollenium-uvaursi'`
+      + `\nexport const ${key} = Uu.fromHexish('${value.toHex()}')`
+    )
+    prompt.finish()
   }
 
 }

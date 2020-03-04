@@ -47,27 +47,22 @@ var Forgetmenot = /** @class */ (function () {
         this.dirPath = dirPath;
     }
     Forgetmenot.prototype.getPath = function (key) {
-        return this.dirPath + "/" + key + ".hex.js";
+        return this.dirPath + "/" + key + ".uu.ts";
     };
     Forgetmenot.prototype.getIsSet = function (key) {
         return fs_1["default"].existsSync(this.getPath(key));
     };
-    Forgetmenot.prototype.get = function (key) {
-        if (!this.getIsSet(key)) {
-            return null;
-        }
-        var hex = require(this.getPath(key));
-        return pollenium_uvaursi_1.Uu.fromHexish(hex);
-    };
-    Forgetmenot.prototype.set = function (key, value) {
+    Forgetmenot.prototype.set = function (struct) {
         return __awaiter(this, void 0, void 0, function () {
-            var currentValue, answer;
+            var key, value, isSet, answer;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        currentValue = this.get(key);
-                        if (!(currentValue !== null)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, prompt_promise_1["default"](key + " is set to " + currentValue.toHex() + ". Override? (y/n): ")];
+                        key = struct.key;
+                        value = pollenium_uvaursi_1.Uu.wrap(struct.value);
+                        isSet = this.getIsSet(key);
+                        if (!isSet) return [3 /*break*/, 2];
+                        return [4 /*yield*/, prompt_promise_1["default"](key + " is set. Overwrite? (y/n): ")];
                     case 1:
                         answer = _a.sent();
                         if (answer !== 'y') {
@@ -75,7 +70,9 @@ var Forgetmenot = /** @class */ (function () {
                         }
                         _a.label = 2;
                     case 2:
-                        fs_1["default"].writeFileSync(this.getPath(key), "module.exports = '" + pollenium_uvaursi_1.Uu.wrap(value).toHex() + "'");
+                        fs_1["default"].writeFileSync(this.getPath(key), "import { Uu } from 'pollenium-uvaursi'"
+                            + ("\nexport const " + key + " = Uu.fromHexish('" + value.toHex() + "')"));
+                        prompt_promise_1["default"].finish();
                         return [2 /*return*/];
                 }
             });
