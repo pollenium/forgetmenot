@@ -47,7 +47,7 @@ var Forgetmenot = /** @class */ (function () {
         this.dirPath = dirPath;
     }
     Forgetmenot.prototype.getPath = function (key) {
-        return this.dirPath + "/" + key + ".uu.ts";
+        return this.dirPath + "/" + key + ".ts";
     };
     Forgetmenot.prototype.getIsSet = function (key) {
         return fs_1["default"].existsSync(this.getPath(key));

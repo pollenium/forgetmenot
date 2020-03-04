@@ -8,7 +8,7 @@ export class Forgetmenot {
   constructor(readonly dirPath: string) {}
 
   private getPath(key: string) {
-    return `${this.dirPath}/${key}.uu.ts`
+    return `${this.dirPath}/${key}.ts`
   }
 
   private getIsSet(key: string): boolean {
